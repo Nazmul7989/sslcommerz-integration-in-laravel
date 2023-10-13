@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
-use PHPUnit\Exception;
+
 
 class PaymentController extends Controller
 {
@@ -153,7 +154,12 @@ class PaymentController extends Controller
 
     public function ipn(Request $request)
     {
-        dd($request->all());
+        $order = new Order();
+
+        $order->transaction_id = $request->tran_id;
+        $order->amount = $request->amount;
+        $order->payment_method = $request->card_type;
+        $order->save();
     }
 
 }
